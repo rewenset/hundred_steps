@@ -12,6 +12,8 @@ public class View {
     public static final String INPUT_INT_DATA = "Guess the number between %d and %d: ";
     public static final String WRONG_INPUT_INT_REQUIRED = "Wrong input. Please, input integer number: ";
     public static final String WRONG_INPUT_OUT_OF_LIMITS = "Oops, you out of limits. Try again.";
+    public static final String GREATER_THEN = "The correct number is GREATER than your guess.";
+    public static final String LESS_THEN = "The correct number is LESS than your guess.";
     public static final String YOU_WIN = "You Win.";
     public static final String NUMBER_OF_ATTEMPTS = "There were %d attempts.";
 

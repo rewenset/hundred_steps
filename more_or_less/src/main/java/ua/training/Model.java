@@ -94,8 +94,10 @@ public class Model {
     private void changeLimit(int number) {
         if (number < correctNumber) {
             leftLimit = number;
+            view.printNewLineMessage(view.GREATER_THEN);
         } else if (number > correctNumber) {
             rightLimit = number;
+            view.printNewLineMessage(view.LESS_THEN);
         }
     }
 
