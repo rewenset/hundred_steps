@@ -3,9 +3,12 @@ package ua.training;
 import java.util.ArrayList;
 
 /**
- * Created by Andriy on 30.10.2016.
+ * Contains fields and methods that intended for displaying all sorts of game info to user.
+ *
+ * @author Andriy Zakurenyi
  */
 public class View {
+    //Text's constants
     public static final String INPUT_INT_DATA = "Guess the number between %d and %d: ";
     public static final String WRONG_INPUT_INT_REQUIRED = "Wrong input. Please, input integer number: ";
     public static final String WRONG_INPUT_OUT_OF_LIMITS = "Oops, you out of limits. Try again.";

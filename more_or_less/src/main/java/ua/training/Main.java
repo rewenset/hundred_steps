@@ -1,7 +1,10 @@
 package ua.training;
 
 /**
- * Created by Andriy on 30.10.2016.
+ * Contains entry point of the game.
+ * Initialize model, view and controller and run the game.
+ *
+ * @author Andriy Zakurenyi
  */
 public class Main {
     public static void main(String[] args) {
