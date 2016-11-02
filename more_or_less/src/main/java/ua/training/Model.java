@@ -10,16 +10,36 @@ import java.util.ArrayList;
  * @author Andriy Zakurenyi
  */
 public class Model {
-
+    /**
+     * connects model with view for inform user, in case when
+     * input is not equal to correct number, if correct number
+     * is greater or less.
+     */
     private View view;
 
-    private int correctNumber;  //the number user should to guess
-    private int leftLimit;      //left limit
-    private int rightLimit;     //right limit
-    private ArrayList<Integer> enteredNumbers = new ArrayList<Integer>();   //contains numbers that user has entered.
+    /**
+     * the number user should to guess
+     */
+    private int correctNumber;
+    /**
+     * left limit of range in which user should guess the correct number
+     * correct number > left limit
+     */
+    private int leftLimit;
+    /**
+     * left limit of range in which user should guess the correct number
+     * correct number < right limit
+     */
+    private int rightLimit;
+    /**
+     * Contains numbers that user has entered.
+     * Used for some statistics.
+     */
+    private ArrayList<Integer> enteredNumbers = new ArrayList<>();
 
     /**
      * Constructor which connects model with view.
+     *
      * @param view the view of the game-app
      */
     public Model(View view) {
@@ -27,97 +47,63 @@ public class Model {
     }
 
     /**
-     * Sets new limits and new correct number.
-     * @see #setLimits(int, int)
-     * @see #generateNewRandNumber()
-     * @param min left limit
-     * @param max right limit
-     */
-    public void thinkOfNewNumber(int min, int max) {
-        setLimits(min, max);
-        correctNumber = generateNewRandNumber();
-    }
-
-    /**
-     * Sets new limits.
-     * @param min left limit
-     * @param max right limit
-     */
-    private void setLimits(int min, int max) {
-        leftLimit = min;
-        rightLimit = max;
-    }
-
-    /**
-     * Generates new random number.
-     * @see Math
-     * @return new random number
-     */
-    private int generateNewRandNumber() {
-        return leftLimit + (int)(Math.random() * rightLimit);
-    }
-
-    /**
-     * Checks if given number is correct. If it's correct then adds
-     * it to enteredNumbers list.
-     * @see #isInLimits(int)
+     * Checks if given number is correct. If it's correct then return true.
+     * Otherwise method sets new limit (right or left - depending on
+     * given number) and return false.
+     *
      * @param number given number
      * @return true - if correct, else - false
      */
     public boolean isCorrect(int number) {
-        if (isInLimits(number)) {
-            enteredNumbers.add(number);
-            return correctNumber == number;
-        } else {
-            view.printNewLineMessage(view.WRONG_INPUT_OUT_OF_LIMITS);
-            return false;
-        }
-    }
-
-    /**
-     * Checks if given number inside of the range (- between left and right limits).
-     * @param number given number
-     * @return true - if inside, else - false
-     */
-    public boolean isInLimits(int number) {
-        if ((leftLimit <= number) && (number <= rightLimit)) {
-            changeLimit(number);
+        enteredNumbers.add(number);
+        if (number == correctNumber) {
             return true;
+        } else if (number < correctNumber) {
+            leftLimit = number;
+            view.printNewLineMessage(View.GREATER_THEN);
+        } else if (number > correctNumber) {
+            rightLimit = number;
+            view.printNewLineMessage(View.LESS_THEN);
         }
         return false;
     }
 
     /**
-     * Sets new limit (right or left - depending on given number).
-     * @param number given number
+     * Sets new correct number.
      */
-    private void changeLimit(int number) {
-        if (number < correctNumber) {
-            leftLimit = number;
-            view.printNewLineMessage(view.GREATER_THEN);
-        } else if (number > correctNumber) {
-            rightLimit = number;
-            view.printNewLineMessage(view.LESS_THEN);
-        }
+    public void thinkOfNewNumber() {
+        correctNumber = generateNewNumber();
     }
 
     /**
-     * @return left limit of the current range.
+     * Generates new number between left and right limits.
+     *
+     * @return new number between left and right limits.
      */
+    public int generateNewNumber() {
+        return (int) Math.ceil(Math.random() *
+                (rightLimit - leftLimit - 1) + leftLimit);
+    }
+
+    /**
+     * Sets new limits.
+     *
+     * @param min left limit of range in which will be correct number.
+     * @param max right limit of range in which will be correct number.
+     */
+    public void setLimits(int min, int max) {
+        leftLimit = min;
+        rightLimit = max;
+    }
+
     public int getLeftLimit() {
         return leftLimit;
     }
 
-    /**
-     * @return right limit of the current range.
-     */
     public int getRightLimit() {
         return rightLimit;
     }
 
-    /**
-     * @return list of numbers entered by user.
-     */
     public ArrayList<Integer> getEnteredNumbers() {
         return enteredNumbers;
     }
