@@ -9,6 +9,13 @@ import java.util.ArrayList;
  */
 public class View {
     //Text's constants
+    public static final String NEW_LIMITS_QUESTION = "Do you want to enter your limits? (for yes input 1, for no - 0): ";
+    public static final String WRONG_INPUT_TO_LIMITS_QUESTION = "Wrong input. Please, input 1 for new limits and 0 for defaults: ";
+    public static final String DEFAULT_LIMITS_IS_SET = "OK, will use defaults.";
+    public static final String SETUP_NEW_LIMITS = "Setting up new limits";
+    public static final String NEW_LEFT_LIMIT = "Input left limit: ";
+    public static final String NEW_RIGHT_LIMIT = "Input right limit: ";
+    public static final String LIMITS_INPUT_ERROR = "Please, choose right limit greater then %d.";
     public static final String INPUT_INT_DATA = "Guess the number between %d and %d: ";
     public static final String WRONG_INPUT_INT_REQUIRED = "Wrong input. Please, input integer number.";
     public static final String WRONG_INPUT_OUT_OF_LIMITS = "Oops, you out of limits. Try again.";
@@ -37,7 +44,17 @@ public class View {
     }
 
     /**
-     * Prints a message with two integers, appended to the end,
+     * Prints a message with one integers, formatted to the message,
+     * with switching to a new line.
+     *
+     * @param message string which will be modified and printed.
+     */
+    public void printMessageWithInt(String message, int number) {
+        printNewLineMessage(String.format(message, number));
+    }
+
+    /**
+     * Prints a message with two integers, formatted to the message,
      * without switching to a new line.
      * Used for printing input invitation and limits.
      *
