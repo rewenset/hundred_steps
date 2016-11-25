@@ -23,7 +23,6 @@ public class Controller {
 
     /**
      * Helps user to create a number of stones for necklace.
-     *
      */
     public void processUser() {
 
@@ -36,7 +35,7 @@ public class Controller {
         double weight, clarity, price;
         String name;
 //        do {
-//            name    = getMatchingValue(sc, newStoneNamePattern, View.NAME_OF_STONE, View.WRONG_INPUT_NAME_REQUIRED);
+//            name    = getMatchingValueWithScanner(sc, newStoneNamePattern, View.NAME_OF_STONE, View.WRONG_INPUT_NAME_REQUIRED);
 //            weight  = getPositiveDoubleValue(sc, View.WEIGHT_OF_STONE);
 //            clarity = getPositiveDoubleValue(sc, View.CLARITY_OF_STONE);
 //            price   = getPositiveDoubleValue(sc, View.PRICE_OF_STONE);
@@ -59,26 +58,15 @@ public class Controller {
         view.printNewLineMessage(View.WEIGHT + necklace.getNecklaceWeight());
         view.printSeparateLine();
         view.printNewLineMessage(View.ALL_STONES);
-        view.printStones(necklace.getStones());
+        view.printStones(necklace.getGemstones());
         view.printSeparateLine();
         view.printNewLineMessage(View.ALL_STONES_SORTED);
         view.printStones(necklace.getSortedByWorthStones());
         view.printSeparateLine();
         view.printNewLineMessage(View.ALL_STONES_RANGE);
         view.printStones(necklace.getStonesInRangeOfClarity(clarityFrom, clarityTo));
-    }
-
-    /**
-     * Check if input match the specified pattern. If it doesn't -- asks for new input.
-     * @param sc        Input stream.
-     * @param pt        Pattern to match input.
-     * @param outputMsg This message will be printed in the beginning.
-     * @param errorMsg  This message will be printed if input value doesn't match the specified pattern.
-     * @return String witch mach the specified pattern.
-     */
-    public String getMatchingValue(Scanner sc, Pattern pt, String outputMsg, String errorMsg) {
-        view.printMessage(outputMsg);
-        return getMatchingValueWithScanner(sc, pt, errorMsg);
+        view.printNewLineMessage(View.PRECIOUS_STONES);
+        view.printStones(necklace.getPreciousStones());
     }
 
     /**
@@ -116,10 +104,12 @@ public class Controller {
      *
      * @param sc       Input stream.
      * @param pt       Pattern to match input.
+     * @param outputMsg This message will be printed in the beginning.
      * @param errorMsg This message will be printed if input value doesn't match the specified pattern.
      * @return String witch mach the specified pattern.
      */
-    public String getMatchingValueWithScanner(Scanner sc, Pattern pt, String errorMsg) {
+    public String getMatchingValueWithScanner(Scanner sc, Pattern pt, String outputMsg, String errorMsg) {
+        view.printMessage(outputMsg);
         while (!sc.hasNext(pt)) {
             view.printNewLineMessage(errorMsg);
             sc.next();

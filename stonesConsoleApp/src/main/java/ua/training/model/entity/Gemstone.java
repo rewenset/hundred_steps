@@ -6,7 +6,7 @@ import java.util.Objects;
  * Represents stone object with part of physical stone properties.
  * @author Andriy Zakurenyi
  */
-public class Stone implements Comparable<Stone> {
+public abstract class Gemstone implements Comparable<Gemstone> {
     /** name of the stone */
     private String name;
 
@@ -27,12 +27,18 @@ public class Stone implements Comparable<Stone> {
      * @param clarity   clarity
      * @param price     price
      */
-    public Stone(String name, double weight, double clarity, double price) {
+    public Gemstone(String name, double weight, double clarity, double price) {
         this.name = name;
         this.weight = weight;
         this.clarity = clarity;
         this.price = price;
     }
+
+    /**
+     * checks if stone is precious
+     * @return true if precious and false otherwise
+     */
+    public abstract boolean isPrecious();
 
     /**
      * calculate worth of the stone
@@ -50,14 +56,14 @@ public class Stone implements Comparable<Stone> {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if (!(o instanceof Stone)) {
+        if (!(o instanceof Gemstone)) {
             return false;
         }
-        Stone stone = (Stone) o;
-        return Objects.equals(name, stone.getName())
-                && weight == stone.getWeight()
-                && clarity == stone.getClarity()
-                && price == stone.getPrice();
+        Gemstone gemstone = (Gemstone) o;
+        return Objects.equals(name, gemstone.getName())
+                && weight == gemstone.getWeight()
+                && clarity == gemstone.getClarity()
+                && price == gemstone.getPrice();
     }
 
     @Override
@@ -68,7 +74,7 @@ public class Stone implements Comparable<Stone> {
     }
 
     @Override
-    public int compareTo(Stone o) {
+    public int compareTo(Gemstone o) {
         return Double.compare(getWorth(), o.getWorth());
     }
 

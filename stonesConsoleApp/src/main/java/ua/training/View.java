@@ -1,6 +1,6 @@
 package ua.training;
 
-import ua.training.model.entity.Stone;
+import ua.training.model.entity.Gemstone;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ public class View {
     public static final String ALL_STONES = "- all stones:";
     public static final String ALL_STONES_SORTED = "- all stones sorted:";
     public static final String ALL_STONES_RANGE = "- all stones with given clarity range:";
+    public static final String PRECIOUS_STONES = "- all precious stones:";
     public static final String EMPTY_LIST = "empty list";
 
 
@@ -55,14 +56,14 @@ public class View {
 
     /**
      * Prints all elements in arrayList.
-     * @param stones input list
+     * @param gemstones input list
      */
-    public void printStones(ArrayList<Stone> stones) {
-        if (stones.size() == 0) {
+    public void printStones(ArrayList<Gemstone> gemstones) {
+        if (gemstones.size() == 0) {
             printNewLineMessage(EMPTY_LIST);
         } else {
-            for (Stone stone : stones) {
-                printNewLineMessage(stone.toString());
+            for (Gemstone gemstone : gemstones) {
+                printNewLineMessage(gemstone.toString());
             }
         }
     }

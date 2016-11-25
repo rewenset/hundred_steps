@@ -1,23 +1,24 @@
 package ua.training.model;
 
-import ua.training.model.entity.Stone;
+import ua.training.model.entity.Gemstone;
+import ua.training.model.entity.PreciousStone;
+import ua.training.model.entity.SemiPreciousStone;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
- * Dedicated for creating new necklace with stones, sorting it by worth,
- * calculating weight and filter by clarity.
+ * Dedicated for creating new necklace with gemstones, sorting it by worth,
+ * calculating weight and filter by clarity or preciousness.
  *
  * @author Andriy Zakurenyi
  */
 public class Necklace {
-    /** all of the stones in necklace */
-    private ArrayList<Stone> stones;
+    /** all of the gemstones in necklace */
+    private ArrayList<Gemstone> gemstones;
 
     public Necklace() {
-        this.stones = new ArrayList<>();
+        this.gemstones = new ArrayList<>();
     }
 
     /**
@@ -28,50 +29,79 @@ public class Necklace {
      * @param price     price
      */
     public void addStone(String name, double weight, double clarity, double price) {
-        stones.add(new Stone(name, weight, clarity, price));
+        for (PreciousStonesNames preciousName : PreciousStonesNames.values()) {
+            if (name.equalsIgnoreCase(preciousName.getName())) {
+                gemstones.add(new PreciousStone(name, weight, clarity, price));
+                return;
+            }
+        }
+        gemstones.add(new SemiPreciousStone(name, weight, clarity, price));
     }
 
     /**
-     * Creates deep copy of stones list.
-     * @return list of stones.
+     * Creates deep copy of gemstones list.
+     * @return list of gemstones.
      */
-    public ArrayList<Stone> getStones() {
+    public ArrayList<Gemstone> getGemstones() {
         return new ArrayList<>(
-                stones.stream().map(stone -> new Stone( stone.getName(),
-                                                        stone.getWeight(),
-                                                        stone.getClarity(),
-                                                        stone.getPrice())    ).collect(Collectors.toList()));
+                gemstones.stream().map(gemstone -> {
+                    if (gemstone.isPrecious()) {
+                        return new PreciousStone(gemstone.getName(),
+                                                 gemstone.getWeight(),
+                                                 gemstone.getClarity(),
+                                                 gemstone.getPrice());
+                    } else {
+                        return new SemiPreciousStone(gemstone.getName(),
+                                                     gemstone.getWeight(),
+                                                     gemstone.getClarity(),
+                                                     gemstone.getPrice());
+                    }
+
+                }).collect(Collectors.toList()));
     }
 
     /**
-     * Sort all stones by worth on deep copy of stones list.
-     * @return sorted copy of stones.
+     * Sort all gemstones by worth on deep copy of gemstones list.
+     * @return sorted copy of gemstones.
      */
-    public ArrayList<Stone> getSortedByWorthStones() {
-//        ArrayList<Stone> copyStones = getStones();
-//        Collections.sort(copyStones, Stone::compareTo);
+    public ArrayList<Gemstone> getSortedByWorthStones() {
+//        ArrayList<Gemstone> copyStones = getGemstones();
+//        Collections.sort(copyStones, Gemstone::compareTo);
 //        return copyStones;
-        return (ArrayList<Stone>)(getStones().stream().sorted(Stone::compareTo).collect(Collectors.toList()));
+        return (ArrayList<Gemstone>)(getGemstones().stream().sorted(Gemstone::compareTo).collect(Collectors.toList()));
     }
 
     /**
-     * Calculate weight of all stones in necklace.
+     * Calculate weight of all gemstones in necklace.
      * @return necklace weight
      */
     public double getNecklaceWeight() {
-//        return stones.stream().map(Stone::getWeight).reduce((w1, w2) -> w1 + w2).get();
-        return stones.stream().collect(Collectors.summarizingDouble(Stone::getWeight)).getSum();
+//        return gemstones.stream().map(Gemstone::getWeight).reduce((w1, w2) -> w1 + w2).get();
+        return gemstones.stream().collect(Collectors.summarizingDouble(Gemstone::getWeight)).getSum();
     }
 
     /**
-     * Creates new copy of stones having clarity in specific range.
+     * Creates new copy of gemstones having clarity in specific range.
      * @param from  beginning of clarity range
      * @param to    ending of clarity range
-     * @return  list of stones
+     * @return  list of gemstones
      */
-    public ArrayList<Stone> getStonesInRangeOfClarity(double from, double to) {
-        return (ArrayList<Stone>)(getStones().stream()
+    public ArrayList<Gemstone> getStonesInRangeOfClarity(double from, double to) {
+        return (ArrayList<Gemstone>)(
+                getGemstones().stream()
                 .filter(s -> from <= s.getClarity() && s.getClarity() <= to)
                 .collect(Collectors.toList()));
     }
+
+    /**
+     * Creates new copy of gemstones having only precious stones.
+     * @return  list of precious stones in necklace
+     */
+    public ArrayList<Gemstone> getPreciousStones() {
+        return (ArrayList<Gemstone>)(
+                getGemstones().stream()
+                .filter(Gemstone::isPrecious)
+                .collect(Collectors.toList()));
+    }
+
 }
